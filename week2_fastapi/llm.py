@@ -1,0 +1,25 @@
+import os
+
+from dotenv import load_dotenv
+from google import genai
+
+# Load the .env file from the Week 1 project root
+load_dotenv("../.env")
+
+
+class LLMWrapper:
+    def __init__(self):
+        api_key = os.getenv("GEMINI_API_KEY")
+
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY is not set")
+
+        self.client = genai.Client(api_key=api_key)
+
+    def generate(self, message: str) -> str:
+        response = self.client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=message
+        )
+
+        return response.text
