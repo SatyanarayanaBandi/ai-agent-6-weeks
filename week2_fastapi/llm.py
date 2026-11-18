@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from google import genai
 
+
 # Load the .env file from the Week 1 project root
 load_dotenv("../.env")
 
@@ -18,8 +19,18 @@ class LLMWrapper:
 
     def generate(self, message: str) -> str:
         response = self.client.models.generate_content(
-            model="gemini-3.8-flash",
+            model="gemini-3.5-flash",
             contents=message
         )
 
         return response.text
+
+    def generate_stream(self, message: str):
+        response = self.client.models.generate_content_stream(
+            model="gemini-3.5-flash",
+            contents=message
+        )
+
+        for chunk in response:
+            if chunk.text:
+                yield chunk.text
