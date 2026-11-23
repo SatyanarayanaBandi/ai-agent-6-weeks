@@ -15,6 +15,9 @@ from db import (
     update_session_summary
 )
 
+from tools.tool_definitions import TOOLS
+from tools.dispatcher import dispatch_tool_call
+
 
 app = FastAPI()
 
@@ -213,6 +216,8 @@ You are an AI assistant for a Task Management AI API.
 Use the conversation context below to answer the
 latest user message.
 
+You have access to tools when they are useful.
+
 Conversation context:
 {context}
 
@@ -220,7 +225,14 @@ Latest user message:
 {request.message}
 """
 
-    answer = llm.generate(prompt)
+    # Run Gemini + tool calling + tool execution loop
+    result = llm.generate_with_tool_loop(
+        message=prompt,
+        tools=TOOLS,
+        dispatch_tool_call=dispatch_tool_call
+    )
+
+    answer = result["answer"]
 
     # Save AI response
     save_message(

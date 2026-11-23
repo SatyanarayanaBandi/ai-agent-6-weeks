@@ -1,0 +1,7 @@
+{
+    "what is fastapi": "FastAPI is a Python web framework for building APIs.",
+    "what is sqlite": "SQLite is a lightweight file-based database.",
+    "what is pydantic": "Pydantic is a Python library used for data validation and parsing.",
+    "what is an api": "An API is an interface that allows different software systems to communicate.",
+    "what is rest": "REST is an architectural style for designing web APIs using HTTP."
+}
